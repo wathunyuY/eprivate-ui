@@ -2,6 +2,10 @@ const colors = require('vuetify/es5/util/colors').default
 
 module.exports = {
   mode: 'spa',
+
+  // router:{
+  //   base:'/military-block/'
+  // },
   /*
   ** Headers of the page
   */
@@ -57,7 +61,7 @@ module.exports = {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
