@@ -1,7 +1,9 @@
 <template>
   <v-app>
+    <Snackbar/>
+    
     <core-toolbar />
-
+    
     <core-drawer />
 
     <core-view />
@@ -21,7 +23,8 @@
       CoreDrawer: () => import('@/components/core/Drawer'),
       CoreFooter: () => import('@/components/core/Footer'),
       CoreToolbar: () => import('@/components/core/Toolbar'),
-      CoreView: () => import('@/components/core/View')
+      CoreView: () => import('@/components/core/View'),
+      Snackbar: () => import('@/components/core/Snackbar')
     },
     data () {
       return {

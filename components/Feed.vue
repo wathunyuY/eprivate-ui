@@ -57,7 +57,8 @@
 <script>
   // Utilities
   import {
-    mapState
+    mapState,
+    mapMutations
   } from 'vuex'
 
   import BaseBtn from './base/Btn';
@@ -73,7 +74,9 @@
       layout: [2, 2, 1, 2, 2, 3, 3, 3, 3, 3, 3],
       page: 1
     }),
-
+    methods:{
+      ...mapMutations(['doubleArc']),
+    },
     computed: {
       ...mapState(['articles']),
       pages () {
@@ -86,7 +89,9 @@
         return this.articles.slice(start, stop)
       }
     },
-
+    async mounted(){
+      this.doubleArc()
+    },
     watch: {
       page () {
         window.scrollTo(0, 0)

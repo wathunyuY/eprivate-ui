@@ -1,14 +1,15 @@
 <template>
   <div id="home">
-    <articles>
+    <!-- <articles>
       <banner />
-    </articles>
+    </articles> -->
 
-    <about />
+    <!-- <about /> -->
 
-    <subscribe />
+    <!-- <subscribe /> -->
 
-    <social />
+    <!-- <social /> -->
+    <Search />
   </div>
 </template>
 
@@ -21,7 +22,8 @@
       Articles: () => import('@/components/home/Articles'),
       Banner: () => import('@/components/home/Banner'),
       Social: () => import('@/components/home/Social'),
-      Subscribe: () => import('@/components/home/Subscribe')
+      Subscribe: () => import('@/components/home/Subscribe'),
+      Search: () => import('@/components/home/Search')
     }
   }
 </script>
