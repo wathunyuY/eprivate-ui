@@ -1,21 +1,27 @@
 <template>
+ <!-- style="background-image: url('https://i2.wp.com/www.shorteng.com/wp-content/uploads/2015/12/photo.jpg?resize=470%2C313');" -->
   <v-app>
     <Snackbar/>
     
-    <core-toolbar />
+    <core-toolbar v-if="auth.time" />
     
-    <core-drawer />
+    <core-drawer v-if="auth.time" />
 
     <core-view />
 
-    <core-footer />
+    <core-footer v-if="auth.time" />
 
-    <core-cta />
+    <!-- <core-cta v-if="auth.time" /> -->
   </v-app>
 </template>
 
 <script>
-
+  import {
+    mapGetters,
+    mapMutations,
+    mapState,
+    mapActions
+  } from 'vuex'
   export default {
     name: 'App',
     components: {
@@ -30,6 +36,9 @@
       return {
       //
       }
-    }
+    },
+    computed: {
+      ...mapState(['auth'])
+    },
   }
 </script>

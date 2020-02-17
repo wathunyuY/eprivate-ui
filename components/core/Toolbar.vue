@@ -51,16 +51,17 @@
     <v-app-bar
       app
       text
+      color="green darken-1"
     >
       <!-- <v-toolbar-side-icon
         class="hidden-md-and-up"
         @click="toggleDrawer"
       /> -->
       <v-app-bar-nav-icon class="hidden-md-and-up" @click="toggleDrawer"></v-app-bar-nav-icon>
-      <v-container
+      <!-- <v-container
         mx-auto
         py-0
-      >
+      > -->
         <v-layout>
           <v-img
             :src="require('@/assets/logo.png')"
@@ -77,20 +78,29 @@
             :to="link.to"
             class="ml-0 hidden-sm-and-down"
             text
-            @click="onClick($event, item)"
+            @click="onClick($event, link)"
           >
             {{ link.text }}
           </v-btn>
+          <v-row justify="center">
+            <div class="display-1">ระบบฐานข้อมูลหน่วยฝึกทหารใหม่ พัน.บร.กบร.กช.</div>
+          </v-row>
           <v-spacer />
-          <v-text-field
+          <!-- <v-text-field
             append-icon="mdi-magnify"
             text
             hide-details
             solo-inverted
             style="max-width: 300px;"
-          />
+          /> -->
+          
+          <v-btn text @click="logout">
+            ({{auth.payload.fullname}}) ออกจากระบบ
+            <v-icon right dark>mdi-logout</v-icon>
+          </v-btn>
+          
         </v-layout>
-      </v-container>
+      <!-- </v-container> -->
     </v-app-bar>
   </div>
 </template>
@@ -99,16 +109,20 @@
   // Utilities
   import {
     mapGetters,
-    mapMutations
+    mapMutations,
+    mapState,
+    mapActions
   } from 'vuex'
 
   export default {
     computed: {
-      ...mapGetters(['links'])
+      ...mapGetters(['links']),
+      ...mapState(['auth'])
     },
 
     methods: {
       ...mapMutations(['toggleDrawer']),
+      ...mapActions(['logout']),
       onClick (e, item) {
         e.stopPropagation()
 

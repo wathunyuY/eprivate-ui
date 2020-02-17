@@ -1,14 +1,14 @@
 <template>
-  <v-form v-model="valid">
+  <!-- <v-form v-model="valid"> -->
     <v-container>
-    <v-card color="basil">
-        <v-card-title class="text-center justify-center py-6">
-        <h1 class="font-weight-bold display-3 basil--text" v-if="form_model.id">{{form_model.firstname}} {{form_model.lastname}}</h1>
-        <h1 class="font-weight-bold display-3 basil--text" v-else>เพิ่มข้อมูล</h1>
+    <v-card color="basil" :dark="dark_form">
+        <v-card-title class="text-center justify-center py-6" @click="dark_form=!dark_form">
+        <h1 class="font-weight-thin display-2 basil--text" v-if="form_model.id">{{form_model.firstname}} {{form_model.lastname}}</h1>
+        <h1 class="font-weight-thin display-2 basil--text" v-else>เพิ่มข้อมูล</h1>
         </v-card-title>
         <v-card-title class="text-center justify-center py-6">
-            <v-btn text @click="addPerson(form_model)">บันทึก</v-btn>
-            <v-btn text @click="clearPerson(form_model.id)">ยกเลิก</v-btn>
+            <v-btn class="ma-1" color="green lighten-1" @click="addPerson(form_model)">บันทึก</v-btn>
+            <v-btn class="ma-1" color="green lighten-1" outlined text @click="clearPerson">ยกเลิก</v-btn>
         </v-card-title>
         <v-tabs
             v-model="tab"
@@ -22,7 +22,7 @@
                 หน้าที่ {{ item }}
             </v-tab>
         </v-tabs>
-        <v-tabs-items v-model="tab">
+        <v-tabs-items v-model="tab" :dark="dark_form">
         <v-tab-item>
             <v-card flat>
                 <v-card-text>
@@ -39,7 +39,7 @@
                             ></v-file-input>
                         </v-col>
                         <v-col cols="12" md="6" offset-md="3" v-if="this.form_model.image_profile">
-                            <v-img :src="this.form_model.image_profile" aspect-ratio="1.7"></v-img>                        
+                            <v-img :src="this.form_model.image_profile" aspect-ratio="1.7" contain></v-img>                        
                         </v-col>
                     </v-row>
                     <div class="title">1.ประวัติทั่วไป</div>
@@ -85,30 +85,7 @@
                         </v-col>
 
                         <v-col cols="12" md="3" >
-                        <v-menu
-                            ref="menu"
-                            v-model="menu"
-                            :close-on-content-click="false"
-                            :return-value.sync="date"
-                            transition="scale-transition"
-                            offset-y
-                            min-width="290px"
-                        >
-                            <template v-slot:activator="{ on }">
-                            <v-text-field
-                                v-model="form_model.birth_date"
-                                label="วัน/เดือน/ปีเกิด"
-                                prepend-icon="mdi-download"
-                                readonly
-                                v-on="on"
-                            ></v-text-field>
-                            </template>
-                            <v-date-picker locale="th" v-model="form_model.birth_date" no-title scrollable>
-                            <v-spacer></v-spacer>
-                            <v-btn text color="primary" @click="menu = false">ยกเลิก</v-btn>
-                            <v-btn text color="primary" @click="$refs.menu.save(date)">ตกลง</v-btn>
-                            </v-date-picker>
-                        </v-menu>
+                        <Birthdate v-model="form_model.birth_date"/>
                         </v-col>
 
                         <v-col cols="12" md="3" >
@@ -192,25 +169,26 @@
                         ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <AddressDialog v-model="my_address" :alert="my_address_alert" />
+                        <v-text-field
                             v-model="form_model.address_province"
                             label="จังหวัด"
-                            required
-                        ></v-select>
+                            @click="my_address_alert = !my_address_alert"
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <v-text-field
                             v-model="form_model.address_district"
                             label="อำเภอ/เขต"
                             required
-                        ></v-select>
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <v-text-field
                             v-model="form_model.address_sub_district"
                             label="ตำบล/แขวง"
                             required
-                        ></v-select>
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
                         <v-text-field
@@ -268,25 +246,27 @@
                         ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <AddressDialog v-model="old_work_address" :alert="old_work_address_alert" />
+                        <v-text-field
                             v-model="form_model.old_work_address_province"
                             label="จังหวัด"
                             required
-                        ></v-select>
+                            @click="old_work_address_alert = !old_work_address_alert"
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <v-text-field
                             v-model="form_model.old_work_address_district"
                             label="อำเภอ/เขต"
                             required
-                        ></v-select>
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <v-text-field
                             v-model="form_model.old_work_address_sub_district"
                             label="ตำบล/แขวง"
                             required
-                        ></v-select>
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
                         <v-text-field
@@ -365,25 +345,27 @@
                         ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <AddressDialog v-model="dad_address" :alert="dad_address_alert" />
+                        <v-text-field
                             v-model="form_model.dad_address_province"
                             label="จังหวัด"
                             required
-                        ></v-select>
+                            @click="dad_address_alert = ! dad_address_alert"
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <v-text-field
                             v-model="form_model.dad_address_district"
                             label="อำเภอ/เขต"
                             required
-                        ></v-select>
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <v-text-field
                             v-model="form_model.dad_address_sub_district"
                             label="ตำบล/แขวง"
                             required
-                        ></v-select>
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
                         <v-text-field
@@ -454,25 +436,27 @@
                         ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <AddressDialog v-model="mom_address" :alert="mom_address_alert" />
+                        <v-text-field
                             v-model="form_model.mom_address_province"
                             label="จังหวัด"
                             required
-                        ></v-select>
+                            @click="mom_address_alert = !mom_address_alert"
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <v-text-field
                             v-model="form_model.mom_address_district"
                             label="อำเภอ/เขต"
                             required
-                        ></v-select>
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <v-text-field
                             v-model="form_model.mom_address_sub_district"
                             label="ตำบล/แขวง"
                             required
-                        ></v-select>
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
                         <v-text-field
@@ -535,25 +519,27 @@
                         ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <AddressDialog v-model="parent_address" :alert="parent_address_alert" />
+                        <v-text-field
                             v-model="form_model.parent_address_province"
                             label="จังหวัด"
                             required
-                        ></v-select>
+                            @click="parent_address_alert = !parent_address_alert"
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <v-text-field
                             v-model="form_model.parent_address_district"
                             label="อำเภอ/เขต"
                             required
-                        ></v-select>
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <v-text-field
                             v-model="form_model.parent_address_sub_district"
                             label="ตำบล/แขวง"
                             required
-                        ></v-select>
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
                         <v-text-field
@@ -646,18 +632,20 @@
                         ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <AddressDialog v-model="congenital_disease" :alert="congenital_disease_alert" />
+                        <v-text-field
                             v-model="form_model.congenital_disease_province"
                             label="จังหวัด"
                             required
-                        ></v-select>
+                            @click="congenital_disease_alert = !congenital_disease_alert"
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <v-text-field
                             v-model="form_model.congenital_disease_district"
                             label="อำเภอ/เขต"
                             required
-                        ></v-select>
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="6" >
                         <v-text-field
@@ -669,14 +657,13 @@
                     </v-row>
                     <v-divider/>
                     <div class="title">5.ประวัติเสพยาเสพติด</div>
-                    <!-- {{form_model.drug_type_for_takes}} -->
                     <v-row no-gutters>
                         <v-col cols="12" md="3" >
                         <v-select
                             v-model="form_model.drug_history_before_civil_service"
                             label="ประวัติเสพยาเสพติด (ก่อนเข้ารับราชการ)"
                             required
-                            :items="['เสพ','เคยเสพแต่เลิก','ไม่เคย']"
+                            :items="['เสพ','เคยเสพแต่เลิกแล้ว','ไม่เคย']"
                         ></v-select>
                         </v-col>
                     </v-row>
@@ -744,11 +731,13 @@
                         ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <AddressDialog v-model="guilty_address" :alert="guilty_address_alert" />
+                        <v-text-field
                             v-model="form_model.guilty_province"
                             label="จังหวัด"
                             required
-                        ></v-select>
+                            @click="guilty_address_alert = !guilty_address_alert"
+                        ></v-text-field>
                         </v-col>
                     </v-row>
                     <v-divider/>
@@ -822,25 +811,27 @@
                         ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <AddressDialog v-model="emergency_contacts_address[l]" :alert="emergency_contacts_address_alert[l].a" />
+                        <v-text-field
                             v-model="form_model.emergency_contacts[l].address_province"
                             label="จังหวัด"
                             required
-                        ></v-select>
+                            @click="emergency_contacts_address_alert[l].a = !emergency_contacts_address_alert[l].a"
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <v-text-field
                             v-model="form_model.emergency_contacts[l].address_district"
                             label="อำเภอ/เขต"
                             required
-                        ></v-select>
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
-                        <v-select
+                        <v-text-field
                             v-model="form_model.emergency_contacts[l].address_sub_district"
                             label="ตำบล/แขวง"
                             required
-                        ></v-select>
+                        ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
                         <v-text-field
@@ -866,18 +857,19 @@
         <v-icon @click="tab = 1; $vuetify.goTo(0);" v-if="tab == 0">mdi-arrow-right-drop-circle</v-icon>
         <v-icon @click="tab = 0; $vuetify.goTo(0);" v-if="tab == 1">mdi-arrow-left-drop-circle</v-icon>
         <v-spacer/>
-        <v-btn text @click="addPerson(form_model)">บันทึก</v-btn>
-        <v-btn text @click="clearPerson(form_model.id)">ยกเลิก</v-btn>
+        <v-btn class="ma-1" color="green lighten-1" @click="addPerson(form_model)">บันทึก</v-btn>
+        <v-btn class="ma-1" color="green lighten-1" outlined @click="clearPerson">ยกเลิก</v-btn>
         </v-card-actions>
     </v-card>
     <!-- <rawDisplayer class="col-3" :value="form_model" title="JSON CHECK" /> -->
     </v-container>
-  </v-form>
+  <!-- </v-form> -->
 </template>
-
+ 
 <script>
 import rawDisplayer from './../components/base/raw-displayer'
-import Address from './../components/base/Address'
+import AddressDialog from './../components/base/address-dialog'
+import Birthdate from './../components/base/Birthdate'
 import {
     mapState,
     mapMutations,
@@ -886,12 +878,14 @@ import {
   } from 'vuex'
     export default {
         name: 'Add',
-        props:['form_model'],
+        props:[],
         components:{
             rawDisplayer,
-            Address
+            AddressDialog,
+            Birthdate
         },
         data: () => ({
+            date:null,
             valid: false,
             firstname: '',
             lastname: '',
@@ -921,21 +915,95 @@ import {
                 value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
             ],
             menu:null,
-            image_input:null
+            image_input:null,
+            my_address:null,my_address_alert:false,
+            old_work_address:null,old_work_address_alert:false,
+            dad_address:null,dad_address_alert:false,
+            mom_address:null,mom_address_alert:false,
+            parent_address:null,parent_address_alert:false,
+            congenital_disease:null,congenital_disease_alert:false,
+            guilty_address:null,guilty_address_alert:false,
+
+            emergency_contacts_address:[null,null,null],emergency_contacts_address_alert:[{a:false},{a:false},{a:false}]
+            ,dark_form:false
         }),
         methods: {
             ...mapActions(['uploadfile','addPerson','clearPerson']),
+            ...mapMutations(['toggleAddressDilog']),
             async onUpload(e){
                 if(!e) return;
                 var formDataToUpload = new FormData();
                 formDataToUpload.append("file", e);
                 this.form_model.image_profile = await this.uploadfile(formDataToUpload);
-            }
+            },
+            
         },
-        mounted(){
+        async mounted(){
         },
         computed: {
+            ...mapState(['form_model']),
+        },
+        watch:{
+            my_address(v){
+                if(v){
+                    this.form_model.address_province = v.province
+                    this.form_model.address_district = v.district
+                    this.form_model.address_sub_district = v.sub_district
+                    this.form_model.address_zipcode = v.zipcode
+                }
+            },
+            old_work_address(v){
+                if(v){
+                    this.form_model.old_work_address_province = v.province
+                    this.form_model.old_work_address_district = v.district
+                    this.form_model.old_work_address_sub_district = v.sub_district
+                    this.form_model.old_work_address_zipcode = v.zipcode
+                }
+            },
+            dad_address(v){
+                if(v){
+                    this.form_model.dad_address_province = v.province
+                    this.form_model.dad_address_district = v.district
+                    this.form_model.dad_address_sub_district = v.sub_district
+                    this.form_model.dad_address_zipcode = v.zipcode
+                }
+            },
+            mom_address(v){
+                if(v){
+                    this.form_model.mom_address_province = v.province
+                    this.form_model.mom_address_district = v.district
+                    this.form_model.mom_address_sub_district = v.sub_district
+                    this.form_model.mom_address_zipcode = v.zipcode
+                }
+            },
+            parent_address(v){
+                if(v){
+                    this.form_model.parent_address_province = v.province
+                    this.form_model.parent_address_district = v.district
+                    this.form_model.parent_address_sub_district = v.sub_district
+                    this.form_model.parent_address_zipcode = v.zipcode
+                }
+            },
+            congenital_disease(v){
+                if(v){
+                    this.form_model.congenital_disease_province = v.province
+                    this.form_model.congenital_disease_district = v.district
+                }
+            },
+            guilty_address(v){
+                if(v)
+                    this.form_model.guilty_province = v.province;
+            },
+            emergency_contacts_address(vs){
+                vs.map((v,i)=>{
+                    if(v){
+                        this.form_model.emergency_contacts[i].address_province = v.province
+                        this.form_model.emergency_contacts[i].address_district = v.district
+                        this.form_model.emergency_contacts[i].address_sub_district = v.sub_district
+                        this.form_model.emergency_contacts[i].address_zipcode = v.zipcode
+                    }
+                })
+            }
         }
     }
 </script>
-s

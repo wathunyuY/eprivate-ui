@@ -1,12 +1,12 @@
 <template>
   <v-footer
     class="py-4"
-    dark
+    color="green darken-1"
     height="auto"
   >
     <v-container mx-auto>
       <v-layout wrap>
-        <v-flex xs9>
+        <!-- <v-flex xs9>
           <base-btn
             v-for="(item, i) in items"
             :key="i"
@@ -18,7 +18,7 @@
           >
             <v-icon v-text="item.icon" />
           </base-btn>
-        </v-flex>
+        </v-flex> -->
         <v-spacer />
         <base-btn
           class="mr-0"

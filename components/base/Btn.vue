@@ -2,7 +2,7 @@
   <v-btn
     fab
     small
-    color="primary"
+    color="green darken-4"
     :style="styles"
     v-bind="$attrs"
     v-on="$listeners"
@@ -18,7 +18,7 @@
     inheritAttrs: false,
 
     props: {
-      square: Boolean
+      square: Boolean,
     },
 
     computed: {

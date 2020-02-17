@@ -1,5 +1,5 @@
 <template>
-    <Add :form_model="person_json"/>
+    <Add />
 </template>
 
 <script>
@@ -12,15 +12,20 @@ import {
     mapGetters,
   } from 'vuex'
     export default {
+        middleware:'authenticated',
         components:{
             rawDisplayer,
             Add
         },
 
         methods: {
+            ...mapActions(['clearPerson']),
         },
         computed: {
-        ...mapState(['person_json']),
+        // ...mapState(['person_json']),
+        },
+        created(){
+            this.clearPerson(null);
         }
         
     }

@@ -4,8 +4,7 @@
     tag="section"
   > 
     <v-toolbar
-    dark
-    color="teal"
+    color="green darken-1"
   >
     <v-toolbar-title>ค้นหา </v-toolbar-title>
         <v-autocomplete
@@ -24,10 +23,10 @@
         solo-inverted
         ></v-autocomplete>
         <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
+        <v-icon x-large @click="getPerson(select)">mdi-account-search-outline</v-icon>
         </v-btn>
     </v-toolbar>
-    <Add :form_model="person_detail" v-if="person_detail"/>
+    <Add v-if="form_model"/>
   </v-container>
 </template>
 <script>
@@ -59,12 +58,12 @@
       search (val) {
         val && val !== this.select && this.querySelections(val)
       },
-      async select (val) {
-        await this.getPerson(val)
+      select (val) {
+        this.getPerson(val)
       },
     },
     methods: {
-        ...mapActions(['getPersons','getPerson']),
+        ...mapActions(['getPersons','getPerson','clearPerson']),
         async querySelections (v) {
             this.loading = true
             await this.getPersons({id_card:v});
@@ -73,8 +72,11 @@
         },
     },
     computed: {
-      ...mapState(['persons','person_detail']),
+      ...mapState(['form_model']),
       ...mapGetters(['personsFullname']),
+    },
+    mounted(){
+      this.clearPerson(1);
     }
   }
 </script>

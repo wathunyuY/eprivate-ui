@@ -16,7 +16,7 @@
 <script>
   export default {
     name: 'Home',
-
+    middleware:'authenticated',
     components: {
       About: () => import('@/components/home/About'),
       Articles: () => import('@/components/home/Articles'),
