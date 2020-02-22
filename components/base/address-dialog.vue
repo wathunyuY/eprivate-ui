@@ -1,9 +1,12 @@
 <template>
-    <v-dialog v-model="address_dialog">
+    <v-dialog v-model="address_dialog" max-width="800">
       <v-card>
-        <v-card-title class="headline">ค้นหาที่อยู่ {{address}}</v-card-title>
+        <v-card-title class="headline">ค้นหาที่อยู่ </v-card-title>
         <v-card-text>
             <Address v-model="address"/>
+        </v-card-text>
+        <v-card-text>
+          {{address_text}}  
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -30,7 +33,8 @@ import {
         },
         data: () => ({
             address:null,
-            address_dialog:false
+            address_dialog:false,
+            address_text:null
         }),
         methods: {
             ok(){
@@ -48,6 +52,9 @@ import {
         watch:{
             alert(v){
                 this.address_dialog = this.$props.alert
+            },
+            address(m){
+                this.address_text = `จังหวัด${m.province.trim()} อำเภอ/เขต${m.district.trim()} ตำบล/แขวง${m.sub_district.trim()} ${m.zipcode.trim()}`;
             }
         }
     }

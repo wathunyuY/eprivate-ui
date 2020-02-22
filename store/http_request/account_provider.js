@@ -31,8 +31,8 @@ class AccountProvider extends HttpRequest {
     return data
   }
 
-  async removePerson (id,type) {
-    const {data} = await this.delete(`/persons/${type}/${id}`)
+  async removePerson (id) {
+    const {data} = await this.delete(`/remove_person`,{id})
     return data
   }
 }

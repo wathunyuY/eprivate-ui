@@ -5,8 +5,12 @@ class HttpRequest {
     // this.axios = axios
     this.axiosInstance = axios.create({
       // baseURL: `${process.env.API_HOST}/${url}`,
+      // baseURL: `http://eprivate.engrdept.com/api/index.php/${url}`,
       baseURL: `http://localhost:8070/eprivate/index.php/${url}`,
-      timeout: 120000
+      timeout: 120000,
+      headers:{
+        Token:'VHByo4Yj2lfyo0CTt9vk6O2DVhjzQsTe52txyNG4UM2O1uzZu9aS5lzTLhQ32PunWX6PBQSInZCgpIf0cV1nnBQlmR2agjztL0Ao3oQEEiRoat3t81J65fxDwuWZdPDOBaDEk4o2oxH4id46skJ0sOl6lO0gmzQErIcJ6MWT90h92IG6jiRXwOTR9onjnHM5bpdsGwIy7BDGKmcYEn9wi5IRoNBP1qbyDmH6cI2Y56RVDpsxR9xcndlONzQwnKiS'
+      }
     })
 
     this.axiosInstance.interceptors.request.use(function (config) {

@@ -3,6 +3,7 @@
     class="py-4"
     color="green darken-1"
     height="auto"
+    style="background-image: url('http://eprivate.engrdept.com/api/assets/images/profile/footer.png');background-size: cover;"
   >
     <v-container mx-auto>
       <v-layout wrap>

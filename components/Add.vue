@@ -8,7 +8,8 @@
         </v-card-title>
         <v-card-title class="text-center justify-center py-6">
             <v-btn class="ma-1" color="green lighten-1" @click="addPerson(form_model)">บันทึก</v-btn>
-            <v-btn class="ma-1" color="green lighten-1" outlined text @click="clearPerson">ยกเลิก</v-btn>
+            <v-btn class="ma-1" color="yellow darken-3" outlined text @click="clearPerson">ยกเลิก</v-btn>
+            <v-btn v-if="form_model.id" class="ma-1" color="red lighten-1" outlined text @click="deletePerson">ลบ</v-btn>
         </v-card-title>
         <v-tabs
             v-model="tab"
@@ -171,8 +172,8 @@
                         <v-col cols="12" md="3" >
                         <AddressDialog v-model="my_address" :alert="my_address_alert" />
                         <v-text-field
-                            v-model="form_model.address_province"
-                            label="จังหวัด"
+                            v-model="form_model.address_sub_district"
+                            label="ตำบล/แขวง"
                             @click="my_address_alert = !my_address_alert"
                         ></v-text-field>
                         </v-col>
@@ -185,8 +186,8 @@
                         </v-col>
                         <v-col cols="12" md="3" >
                         <v-text-field
-                            v-model="form_model.address_sub_district"
-                            label="ตำบล/แขวง"
+                            v-model="form_model.address_province"
+                            label="จังหวัด"
                             required
                         ></v-text-field>
                         </v-col>
@@ -248,8 +249,8 @@
                         <v-col cols="12" md="3" >
                         <AddressDialog v-model="old_work_address" :alert="old_work_address_alert" />
                         <v-text-field
-                            v-model="form_model.old_work_address_province"
-                            label="จังหวัด"
+                            v-model="form_model.old_work_address_sub_district"
+                            label="ตำบล/แขวง"
                             required
                             @click="old_work_address_alert = !old_work_address_alert"
                         ></v-text-field>
@@ -263,8 +264,8 @@
                         </v-col>
                         <v-col cols="12" md="3" >
                         <v-text-field
-                            v-model="form_model.old_work_address_sub_district"
-                            label="ตำบล/แขวง"
+                            v-model="form_model.old_work_address_province"
+                            label="จังหวัด"
                             required
                         ></v-text-field>
                         </v-col>
@@ -347,8 +348,8 @@
                         <v-col cols="12" md="3" >
                         <AddressDialog v-model="dad_address" :alert="dad_address_alert" />
                         <v-text-field
-                            v-model="form_model.dad_address_province"
-                            label="จังหวัด"
+                            v-model="form_model.dad_address_sub_district"
+                            label="ตำบล/แขวง"
                             required
                             @click="dad_address_alert = ! dad_address_alert"
                         ></v-text-field>
@@ -362,8 +363,8 @@
                         </v-col>
                         <v-col cols="12" md="3" >
                         <v-text-field
-                            v-model="form_model.dad_address_sub_district"
-                            label="ตำบล/แขวง"
+                            v-model="form_model.dad_address_province"
+                            label="จังหวัด"
                             required
                         ></v-text-field>
                         </v-col>
@@ -438,8 +439,8 @@
                         <v-col cols="12" md="3" >
                         <AddressDialog v-model="mom_address" :alert="mom_address_alert" />
                         <v-text-field
-                            v-model="form_model.mom_address_province"
-                            label="จังหวัด"
+                            v-model="form_model.mom_address_sub_district"
+                            label="ตำบล/แขวง"
                             required
                             @click="mom_address_alert = !mom_address_alert"
                         ></v-text-field>
@@ -453,8 +454,8 @@
                         </v-col>
                         <v-col cols="12" md="3" >
                         <v-text-field
-                            v-model="form_model.mom_address_sub_district"
-                            label="ตำบล/แขวง"
+                            v-model="form_model.mom_address_province"
+                            label="จังหวัด"
                             required
                         ></v-text-field>
                         </v-col>
@@ -521,8 +522,8 @@
                         <v-col cols="12" md="3" >
                         <AddressDialog v-model="parent_address" :alert="parent_address_alert" />
                         <v-text-field
-                            v-model="form_model.parent_address_province"
-                            label="จังหวัด"
+                            v-model="form_model.parent_address_sub_district"
+                            label="ตำบล/แขวง"
                             required
                             @click="parent_address_alert = !parent_address_alert"
                         ></v-text-field>
@@ -536,8 +537,8 @@
                         </v-col>
                         <v-col cols="12" md="3" >
                         <v-text-field
-                            v-model="form_model.parent_address_sub_district"
-                            label="ตำบล/แขวง"
+                            v-model="form_model.parent_address_province"
+                            label="จังหวัด"
                             required
                         ></v-text-field>
                         </v-col>
@@ -634,16 +635,16 @@
                         <v-col cols="12" md="3" >
                         <AddressDialog v-model="congenital_disease" :alert="congenital_disease_alert" />
                         <v-text-field
-                            v-model="form_model.congenital_disease_province"
-                            label="จังหวัด"
+                            v-model="form_model.congenital_disease_district"
+                            label="อำเภอ/เขต"
                             required
                             @click="congenital_disease_alert = !congenital_disease_alert"
                         ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="3" >
                         <v-text-field
-                            v-model="form_model.congenital_disease_district"
-                            label="อำเภอ/เขต"
+                            v-model="form_model.congenital_disease_province"
+                            label="จังหวัด"
                             required
                         ></v-text-field>
                         </v-col>
@@ -813,8 +814,8 @@
                         <v-col cols="12" md="3" >
                         <AddressDialog v-model="emergency_contacts_address[l]" :alert="emergency_contacts_address_alert[l].a" />
                         <v-text-field
-                            v-model="form_model.emergency_contacts[l].address_province"
-                            label="จังหวัด"
+                            v-model="form_model.emergency_contacts[l].address_sub_district"
+                            label="ตำบล/แขวง"
                             required
                             @click="emergency_contacts_address_alert[l].a = !emergency_contacts_address_alert[l].a"
                         ></v-text-field>
@@ -828,8 +829,8 @@
                         </v-col>
                         <v-col cols="12" md="3" >
                         <v-text-field
-                            v-model="form_model.emergency_contacts[l].address_sub_district"
-                            label="ตำบล/แขวง"
+                            v-model="form_model.emergency_contacts[l].address_province"
+                            label="จังหวัด"
                             required
                         ></v-text-field>
                         </v-col>
@@ -858,10 +859,12 @@
         <v-icon @click="tab = 0; $vuetify.goTo(0);" v-if="tab == 1">mdi-arrow-left-drop-circle</v-icon>
         <v-spacer/>
         <v-btn class="ma-1" color="green lighten-1" @click="addPerson(form_model)">บันทึก</v-btn>
-        <v-btn class="ma-1" color="green lighten-1" outlined @click="clearPerson">ยกเลิก</v-btn>
+        <v-btn class="ma-1" color="yellow darken-3" outlined text @click="clearPerson">ยกเลิก</v-btn>
+        <v-btn v-if="form_model.id" class="ma-1" color="red lighten-1" outlined text @click="deletePerson">ลบ</v-btn>
         </v-card-actions>
     </v-card>
     <!-- <rawDisplayer class="col-3" :value="form_model" title="JSON CHECK" /> -->
+    <Confirm ref="confirm" />
     </v-container>
   <!-- </v-form> -->
 </template>
@@ -870,6 +873,7 @@
 import rawDisplayer from './../components/base/raw-displayer'
 import AddressDialog from './../components/base/address-dialog'
 import Birthdate from './../components/base/Birthdate'
+import Confirm from './../components/base/Confirm'
 import {
     mapState,
     mapMutations,
@@ -882,7 +886,8 @@ import {
         components:{
             rawDisplayer,
             AddressDialog,
-            Birthdate
+            Birthdate,
+            Confirm
         },
         data: () => ({
             date:null,
@@ -928,7 +933,7 @@ import {
             ,dark_form:false
         }),
         methods: {
-            ...mapActions(['uploadfile','addPerson','clearPerson']),
+            ...mapActions(['uploadfile','addPerson','clearPerson','removePerson']),
             ...mapMutations(['toggleAddressDilog']),
             async onUpload(e){
                 if(!e) return;
@@ -936,6 +941,11 @@ import {
                 formDataToUpload.append("file", e);
                 this.form_model.image_profile = await this.uploadfile(formDataToUpload);
             },
+            async deletePerson(){
+                if (await this.$refs.confirm.open('ลบ', 'คุณต้องการลบข้อมูลใช่หรือไม่?', { color: 'red' })) {
+                    this.removePerson(this.form_model.id);
+                }
+            }
             
         },
         async mounted(){

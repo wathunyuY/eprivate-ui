@@ -51,13 +51,17 @@
     <v-app-bar
       app
       text
+      dark
       color="green darken-1"
+      absolute
+      prominent
+      src="http://eprivate.engrdept.com/api/assets/images/profile/header.png"
     >
       <!-- <v-toolbar-side-icon
         class="hidden-md-and-up"
         @click="toggleDrawer"
-      /> -->
-      <v-app-bar-nav-icon class="hidden-md-and-up" @click="toggleDrawer"></v-app-bar-nav-icon>
+      /> class="hidden-md-and-up"-->
+      <v-app-bar-nav-icon  @click="toggleDrawer"></v-app-bar-nav-icon>
       <!-- <v-container
         mx-auto
         py-0
@@ -94,7 +98,7 @@
             style="max-width: 300px;"
           /> -->
           
-          <v-btn text @click="logout">
+          <v-btn text @click="logout" class="ml-0 hidden-sm-and-down">
             ({{auth.payload.fullname}}) ออกจากระบบ
             <v-icon right dark>mdi-logout</v-icon>
           </v-btn>

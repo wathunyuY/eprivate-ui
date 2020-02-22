@@ -15,6 +15,9 @@
 
 <script>
   export default {
+    head:{
+        title:'ค้นหาข้อมูล'
+    },
     name: 'Home',
     middleware:'authenticated',
     components: {

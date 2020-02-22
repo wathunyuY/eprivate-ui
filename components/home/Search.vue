@@ -4,14 +4,16 @@
     tag="section"
   > 
     <v-toolbar
+    style="background-image: url('http://eprivate.engrdept.com/api/assets/images/profile/search.png');background-size: cover;"
     color="green darken-1"
+    dark
   >
     <v-toolbar-title>ค้นหา </v-toolbar-title>
         <v-autocomplete
         v-model="select"
         :loading="loading"
-        :items="items"
-        item-text="id_card"
+        :items="personsForSerach"
+        item-text="name"
         item-value="id"
         :search-input.sync="search"
         cache-items
@@ -26,7 +28,16 @@
         <v-icon x-large @click="getPerson(select)">mdi-account-search-outline</v-icon>
         </v-btn>
     </v-toolbar>
+    
     <Add v-if="form_model"/>
+    <!-- <v-data-table
+      v-else
+      :headers="headers"
+      :items="persons"
+      :items-per-page="5"
+      class="elevation-1"
+      @click:row="getPersonFromTable"
+    ></v-data-table> -->
   </v-container>
 </template>
 <script>
@@ -48,10 +59,19 @@
     data () {
       return {
         loading: false,
-        items: [],
         search: null,
         select: null,
-        // states: [],
+        headers: [
+          {
+            text: 'เลขบัตรประจำตัวประชาชน',
+            align: 'left',
+            sortable: false,
+            value: 'id_card',
+          },
+          { text: 'ชื่อ-สกุล', value: 'name' },
+          { text: 'ชื่อเล่น', value: 'nickname' },
+          { text: 'ผลัดที่', value: 'take_terns' },
+        ]
       }
     },
     watch: {
@@ -67,13 +87,15 @@
         async querySelections (v) {
             this.loading = true
             await this.getPersons({id_card:v});
-            this.items = this.$store.state.persons;
             this.loading = false
         },
+        async getPersonFromTable(e){
+          this.getPerson(e._id)
+        }
     },
     computed: {
-      ...mapState(['form_model']),
-      ...mapGetters(['personsFullname']),
+      ...mapState(['form_model','persons']),
+      ...mapGetters(['personsForSerach']),
     },
     mounted(){
       this.clearPerson(1);

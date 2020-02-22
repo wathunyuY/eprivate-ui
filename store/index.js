@@ -17,11 +17,13 @@ export const state = () => {
     drawer: false,
     items: [
       {
-        text: 'หน้าแรก',
+        text: 'ค้นหาข้อมูล',
+        icon:'mdi-account-search-outline',
         to: '/'
       },
       {
         text: 'เพิ่มข้อมูล',
+        icon:'mdi-account-plus-outline',
         to: '/add_data'
       },
       // {
@@ -86,7 +88,6 @@ export const actions = {
   async login({commit,state},body){
     await accountService.login(body).then(res=>{
       if(res == 1){
-        console.log("fail")
         commit('fail', "ล็อกอินผิดพลาด : ชื่อผู้ใช้ไม่ถูกต้อง");
         return ;
       }else if(res == 2){
@@ -111,7 +112,7 @@ export const actions = {
       commit('SET_PERSONS', res)
       return res;
     }).catch(err=>{
-      commit('fail', err.message);
+      commit('fail', "การดึงข้อมูลผิดพลาด");
     })
   },
   async getPerson ({commit},id) {
@@ -119,13 +120,22 @@ export const actions = {
       commit('SET_PERSON_DETAIL', res)
       return res;
     }).catch(err=>{
-      commit('fail', err.message);
+      commit('fail', "การค้นหาผิดพลาด/ไม่พบข้อมูล");
+    })
+  },
+  async removePerson ({commit},id) {
+    const data = await accountService.removePerson(id).then(res=>{
+      commit('CLEAR_PERSON',id)
+      commit('success', "เรียบร้อย");
+      return res;
+    }).catch(err=>{
+      commit('fail', "ลบข้อมูลผิดพลาด/ไม่พบข้อมูล");
     })
   },
 
   async addPerson ({commit},body) {
-    if(!body.firstname){
-      commit('fail', "กรุณากรอก ชื่อพลทหาร");
+    if(!body.firstname || !body.lastname){
+      commit('fail', "กรุณากรอก ชื่อ-สกุลพลทหาร");
       return;
     }
     if(!body.id_card){
@@ -185,8 +195,13 @@ export const getters = {
   links: (state, getters) => {
     return state.items
   },
-  personsFullname: state =>{
-    return state.persons.map(m=>`${m.firstname} ${m.lastname}`);
+  personsForSerach: state =>{
+    return state.persons.map(m=>{
+      return{
+        name:`${m.id_card} - ${m.firstname} ${m.lastname}`,
+        id:m.id
+      }
+    });
   },
   getAddressText: state =>{
     return state.addresses.map(m=>{

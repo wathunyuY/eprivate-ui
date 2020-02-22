@@ -30,6 +30,9 @@ import {
     mapGetters,
   } from 'vuex'
 export default {
+    head:{
+        title:'เข้าสู่ระบบ'
+    },
     data:()=>{
         return{
             username:null,

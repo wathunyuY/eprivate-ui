@@ -12,6 +12,9 @@ import {
     mapGetters,
   } from 'vuex'
     export default {
+        head:{
+            title:'เพิ่มข้อมูล'
+        },
         middleware:'authenticated',
         components:{
             rawDisplayer,
