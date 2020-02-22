@@ -13,6 +13,14 @@ class AccountProvider extends HttpRequest {
     const {data} = await this.create('/login',body)
     return data
   }
+  async changePassword (body) {
+    const {data} = await this.create('/change_password',body)
+    return data
+  }
+  async newUser(body) {
+    const {data} = await this.create('/new_user',body)
+    return data
+  }
   async addPerson (body) {
     const {data} = await this.create('/add_person',body)
     return data
@@ -32,7 +40,7 @@ class AccountProvider extends HttpRequest {
   }
 
   async removePerson (id) {
-    const {data} = await this.delete(`/remove_person`,{id})
+    const {data} = await this.get(`/remove_person`,{id})
     return data
   }
 }

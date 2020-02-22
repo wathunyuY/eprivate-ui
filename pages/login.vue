@@ -3,9 +3,8 @@
           <v-layout align-center justify-center>
             <v-flex xs12 sm8 md4>
               <v-card>
-                <v-toolbar >
-                    <v-toolbar-title>E-Private</v-toolbar-title>
-                </v-toolbar>
+                <v-card-title>E-Private</v-card-title>
+                <v-divider/>
                 <v-card-text>
                     <v-form>
                     <v-text-field prepend-icon="mdi-account" v-model="username" label="ชื่อผู้ใช้" type="text"></v-text-field>

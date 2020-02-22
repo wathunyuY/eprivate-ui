@@ -19,12 +19,26 @@ export const state = () => {
       {
         text: 'ค้นหาข้อมูล',
         icon:'mdi-account-search-outline',
-        to: '/'
+        to: '/',
+        show_in_header:true
       },
       {
         text: 'เพิ่มข้อมูล',
         icon:'mdi-account-plus-outline',
-        to: '/add_data'
+        to: '/add_data',
+        show_in_header:true
+      },
+      {
+        text: 'เปลี่ยนรหัสผ่าน',
+        icon:'mdi-account-key-outline',
+        to: '/change_password',
+        show_in_header:false
+      },
+      {
+        text: 'เพิ่มผู้ใช้งาน',
+        icon:'mdi-account-multiple-check-outline',
+        to: '/new_user',
+        show_in_header:false
       },
       // {
       //   text: 'เกี่ยวกับ',
@@ -99,13 +113,45 @@ export const actions = {
       this.$router.push('/')
       return res;
     }).catch(err=>{
-      commit('fail', `ล็อกอินผิดพลาด : ${err.message}` );
+      commit('fail', `ล็อกอินผิดพลาด` );
     })
   },
   async logout({commit}){
       commit('setAuth', null)
       Cookie.remove('auth')
       this.$router.push('/login')
+  },
+  async changePassword({commit,state},body){
+    body["id"] = state.auth.payload.id;
+    await accountService.changePassword(body).then(res=>{
+      if(res == 1){
+        commit('fail', "เปลี่ยนรหัสผ่านผิดพลาด : รหัสเดิมไม่ถูกต้อง");
+        return ;
+      }else if(res == 2){
+        commit('fail', "เปลี่ยนรหัสผ่านผิดพลาด : รหัสยืนยันไม่ตรงกัน");
+        return ;
+      }
+      commit('success', "เรียบร้อย");
+      return res;
+    }).catch(err=>{
+      commit('fail', `เปลี่ยนรหัสผ่านผิดพลาด` );
+    })
+  },
+  async newUser({commit,state},body){
+    body["id"] = state.auth.payload.id;
+    await accountService.newUser(body).then(res=>{
+      if(res == 1){
+        commit('fail', "เพิ่มผู้ใช้งานผิดพลาด : ชื่อผู้ใช้มีอยู่แล้ว");
+        return ;
+      }else if(res == 2){
+        commit('fail', "เพิ่มผู้ใช้งานผิดพลาด : รหัสยืนยันไม่ตรงกัน");
+        return ;
+      }
+      commit('success', "เรียบร้อย");
+      return res;
+    }).catch(err=>{
+      commit('fail', `เพิ่มผู้ใช้งานผิดพลาด` );
+    })
   },
   async getPersons ({commit},params) {
     const data = await accountService.getPersons(params).then(res=>{
@@ -170,7 +216,7 @@ export const actions = {
   },
   getAddressById({state},id){
     return state.addresses.find(f=>f.id == id);
-  }
+  },
 }
 export const getters = {
   categories: state => {
@@ -194,6 +240,9 @@ export const getters = {
   },
   links: (state, getters) => {
     return state.items
+  },
+  links_for_header: (state, getters) => {
+    return state.items.filter(f=>f.show_in_header);
   },
   personsForSerach: state =>{
     return state.persons.map(m=>{
