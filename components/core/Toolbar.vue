@@ -53,8 +53,6 @@
       text
       dark
       color="green darken-1"
-      absolute
-      prominent
       src="http://eprivate.engrdept.com/api/assets/images/profile/header.png"
     >
       <!-- <v-toolbar-side-icon
@@ -62,10 +60,17 @@
         @click="toggleDrawer"
       /> class="hidden-md-and-up"-->
       <v-app-bar-nav-icon  @click="toggleDrawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>ระบบฐานข้อมูลหน่วยฝึกทหารใหม่ พัน.บร.กบร.กช.</v-toolbar-title>
+      <v-spacer />
+      <v-btn text @click="logout" class="ml-0 hidden-sm-and-down">
+        ({{auth.payload.fullname}}) ออกจากระบบ
+        <v-icon right dark>mdi-logout</v-icon>
+      </v-btn>
       <!-- <v-container
         mx-auto
         py-0
-      > -->
+      >
         <v-layout>
           <v-img
             :src="require('@/assets/logo.png')"
@@ -76,35 +81,28 @@
             max-width="48"
             @click="$vuetify.goTo(0)"
           />
-          <v-btn
-            v-for="(link, i) in links"
-            :key="i"
-            :to="link.to"
-            class="ml-0 hidden-sm-and-down"
-            text
-            @click="onClick($event, link)"
-          >
-            {{ link.text }}
-          </v-btn>
           <v-row justify="center">
             <div class="display-1">ระบบฐานข้อมูลหน่วยฝึกทหารใหม่ พัน.บร.กบร.กช.</div>
           </v-row>
-          <v-spacer />
-          <!-- <v-text-field
-            append-icon="mdi-magnify"
-            text
-            hide-details
-            solo-inverted
-            style="max-width: 300px;"
-          /> -->
-          
-          <v-btn text @click="logout" class="ml-0 hidden-sm-and-down">
-            ({{auth.payload.fullname}}) ออกจากระบบ
-            <v-icon right dark>mdi-logout</v-icon>
-          </v-btn>
-          
         </v-layout>
-      <!-- </v-container> -->
+      </v-container> -->
+      <template v-slot:extension>
+        <v-layout>
+          <v-row justify="center">
+            <v-btn
+              v-for="(link, i) in links_for_header"
+              :key="i"
+              :to="link.to"
+              class="ml-0 hidden-sm-and-down font-weight-bold"
+              text
+              @click="onClick($event, link)"
+            >
+              {{ link.text }}
+            </v-btn>
+          </v-row>
+        </v-layout>
+        
+      </template>
     </v-app-bar>
   </div>
 </template>
@@ -120,7 +118,7 @@
 
   export default {
     computed: {
-      ...mapGetters(['links']),
+      ...mapGetters(['links_for_header']),
       ...mapState(['auth'])
     },
 

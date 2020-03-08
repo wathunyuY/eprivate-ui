@@ -34,7 +34,7 @@
     </v-list>
     <template v-slot:append>
       <div class="pa-2">
-        <v-btn  @click="logout" block>ออกจากระบบ ({{auth.payload.fullname}})</v-btn>
+        <v-btn color="red darken-4" @click="logout" block>ออกจากระบบ ({{auth.payload.fullname}})</v-btn>
       </div>
     </template>
   </v-navigation-drawer>
